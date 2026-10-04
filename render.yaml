@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: claude-telegram-file-agent
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: python bot.py
+    healthCheckPath: /health
+    envVars:
+      - key: TELEGRAM_BOT_TOKEN
+        sync: false
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: WEBHOOK_SECRET
+        generateValue: true
+      - key: CLAUDE_MODEL
+        value: claude-sonnet-4-5
+      - key: MAX_TOKENS
+        value: "12000"
+      - key: SYSTEM_PROMPT
+        value: "Ты Claude, работающий внутри Telegram-бота. Отвечай на русском, если пользователь не просит другой язык. Если пользователь просит создать файл, верни результат строго в формате FILE_REQUEST."
+      - key: PYTHON_VERSION
+        value: "3.13.5"
